@@ -79,8 +79,13 @@ module.exports = function (app) {
 
     .post(function (req, res){
       const body /*{ issue_text, created_by, assigned_to, status_text }*/ = req.body;
-      const date = new Date();
 
+      if( !body.issue_title || !body.issue_text || !body.created_by ){
+        res.send( 'Please fill in the required fields' );
+        return;
+      }
+
+      const date = new Date();
       let newIssue = new IssueModel( {
         issue_title: body.issue_title,
         issue_text: body.issue_text,
@@ -113,6 +118,11 @@ module.exports = function (app) {
     .put(function (req, res){
       const body /*{ _id, issue_title, issue_text, created_by, assigned_to, status_text, open }*/ = req.body;
 
+      if( !body._id ){
+        res.send( 'Please fill in the required fields' );
+        return;
+      }
+
       let updates = {
         updated_on: new Date(),
       };
@@ -144,6 +154,11 @@ module.exports = function (app) {
     
     .delete(function (req, res){
       const body /*{ _id }*/ = req.body;
+
+      if( !body._id ){
+        res.send( 'Please fill in the required fields' );
+        return;
+      }
       
       IssueModel.findByIdAndDelete( { _id: body._id } ).then(( issueData ) => {
         if( issueData ){
