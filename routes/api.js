@@ -131,6 +131,11 @@ module.exports = function (app) {
         if ( body[ spec ] && !/_id+/.test( spec ) ) updates[ spec ] = body[ spec ];
       };
 
+      if( Object.keys( updates ).length == 1 ){
+        res.send( 'No updates sent' );
+        return;
+      }
+
       IssueModel.findOneAndUpdate( 
         { _id: body._id },
         updates,
@@ -142,13 +147,18 @@ module.exports = function (app) {
             _id: body._id
           });
           console.log("Issue has been updated");
+        } else {
+          res.json({
+            error: "could not update",
+            _id: body._id
+          });
         }
       }).catch((err) => {
         console.log(err);
         res.json({
           error: "could not update",
           _id: body._id
-        })
+        });
       });
     })
     
@@ -159,7 +169,7 @@ module.exports = function (app) {
         res.send( 'Please fill in the required fields' );
         return;
       }
-      
+
       IssueModel.findByIdAndDelete( { _id: body._id } ).then(( issueData ) => {
         if( issueData ){
           res.json({
@@ -167,6 +177,11 @@ module.exports = function (app) {
             _id: body._id
           })
           console.log("Issue has been deleted");
+        } else {
+          res.json({
+            error: "could not delete",
+            _id: body._id
+          });
         }
       }).catch((err) => {
         console.log( err );
