@@ -71,7 +71,7 @@ describe('Functional Tests', () => {
         })
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, 'Please fill in the required fields' )
+            assert.equal( res.body.error, 'required field(s) missing')
             done();
         })
         .catch(( err ) => console.log( err ));
@@ -145,7 +145,8 @@ describe('Functional Tests', () => {
         })
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, `{"result":"successfully updated","_id":"${deleteId}"}` )
+            assert.equal( res.body.result, "successfully updated")
+            assert.equal( res.body._id, deleteId)
             done();
         })
         .catch(( err ) => console.log( err ));
@@ -163,7 +164,8 @@ describe('Functional Tests', () => {
         })
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, `{"result":"successfully updated","_id":"${deleteId}"}` )
+            assert.equal( res.body.result, "successfully updated")
+            assert.equal( res.body._id, deleteId)
             done();
         })
         .catch(( err ) => console.log( err ));
@@ -177,7 +179,7 @@ describe('Functional Tests', () => {
         .send({})
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, `Please fill in the required fields`)
+            assert.equal( res.body.error, 'missing _id')
             done();
         })
         .catch(( err ) => console.log( err ));
@@ -193,7 +195,8 @@ describe('Functional Tests', () => {
         })
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, `No updates sent`)
+            assert.equal( res.body.error, 'no update field(s) sent')
+            assert.equal( res.body._id, deleteId)
             done();
         })
         .catch(( err ) => console.log( err ));
@@ -210,7 +213,9 @@ describe('Functional Tests', () => {
         })
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, `{"error":"could not update","_id":"5712b4b6c61ba86225f9de8d"}`)
+            assert.equal( res.body.error, "could not update")
+            assert.equal( res.body._id, "5712b4b6c61ba86225f9de8d")
+
             done();
         })
         .catch(( err ) => console.log( err ));
@@ -226,7 +231,8 @@ describe('Functional Tests', () => {
         })
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, `{"result":"successfully deleted","_id":"${deleteId}"}`)
+            assert.equal( res.body.result, "successfully deleted")
+            assert.equal( res.body._id, deleteId)
             done();
         })
         .catch(( err ) => console.log( err ));
@@ -242,7 +248,8 @@ describe('Functional Tests', () => {
         })
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, `{"error":"could not delete","_id":"${deleteId}"}`)
+            assert.equal( res.body.error, "could not delete")
+            assert.equal( res.body._id, deleteId)
             done();
         })
         .catch(( err ) => console.log( err ));
@@ -256,7 +263,7 @@ describe('Functional Tests', () => {
         .send({})
         .then(( res ) => {
             assert.equal( res.status, 200 );
-            assert.equal( res.text, 'Please fill in the required fields')
+            assert.equal( res.body.error, 'missing _id')
             done();
         })
         .catch(( err ) => console.log( err ));
